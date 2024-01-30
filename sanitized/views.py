@@ -27,8 +27,16 @@ class SanitizedInputAPIView(APIView):
 
     def is_sanitized(self, input_string):
         """Return True if the input string is sanitized, False otherwise."""
+        sql_injection_characters = [";", "--", "DROP", "DELETE", "INSERT", "UPDATE"]
         sql_injection_pattern = re.compile(r'[\;\*\|\'\"\=\(\)\[\]\{\}\%\@\,]')
 
+        # Check for simple SQL injection characters
+        for char in sql_injection_characters:
+            if char in input_string:
+                return False
+
+        # Check for more complex SQL injection patterns using regular expression
         if sql_injection_pattern.search(input_string):
             return False
+
         return True
