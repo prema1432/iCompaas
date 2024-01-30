@@ -1,0 +1,97 @@
+exclude: &global-exclude 'Makefile|.md$|.*\.cfg$|.*\/migrations\/.*\.py$|common/grpc/|.*apps\.py$|[^\/]*consumer[^\/]*\.py$|__init__.py|common/configs/'
+
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+        args: [ '--skip-string-normalization', '--line-length', '120' ]
+        exclude: *global-exclude
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: *global-exclude
+        exclude_types: [ svg ]
+      - id: end-of-file-fixer
+        exclude: *global-exclude
+        exclude_types: [ svg ]
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: detect-private-key
+      - id: fix-byte-order-marker
+      - id: mixed-line-ending
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.0
+    hooks:
+      - id: pyupgrade
+        args: [ '--py38-plus', '--py39-plus' ]
+
+  - repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v2.0.4
+    hooks:
+      - id: autopep8
+        args: [ '-i', '--max-line-length=220' ]
+        exclude: *global-exclude
+
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.7.7
+    hooks:
+      - id: bandit
+        args: [ "-iii", "-ll" ]
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        exclude: *global-exclude
+        entry: flake8 --max-line-length=220
+
+  - repo: https://github.com/asottile/seed-isort-config
+    rev: v2.2.0
+    hooks:
+      - id: seed-isort-config
+
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.10.1
+    hooks:
+      - id: isort
+        args: [ "--profile", "black" ]
+
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        exclude: *global-exclude
+        args: [ '--select=D101,D213,D215,D400,D401' ]
+
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: "1.15.0"
+    hooks:
+      - id: django-upgrade
+        exclude: *global-exclude
+        args: [ "--target-version", "4.1" ]
+
+  - repo: https://github.com/hadialqattan/pycln
+    rev: v2.4.0
+    hooks:
+      - id: pycln
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.15
+    hooks:
+      - id: ruff
+        alias: autoformat
+        exclude: *global-exclude
+        args: [ '--fix' ]
+
+  - repo: https://github.com/pycqa/pylint
+    rev: "v3.0.3"
+    hooks:
+      - id: pylint
+        args:
+          - --disable=R0903,C0301,C0114,E0401,R0801,C0415
