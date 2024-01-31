@@ -141,7 +141,7 @@ class TestSanitizedInputAPIView:
 
     def test_unsanitized_input_special_characters(self, api_client):
         """Test with an unsanitized input containing special characters."""
-        url = reverse('sanitized:sanitized_input_v1')  # Replace with your actual URL name
+        url = reverse('sanitized:sanitized_input_v1')
 
         # Test with an unsanitized input containing special characters
         user_input = "!@#$%^&*"
@@ -153,7 +153,7 @@ class TestSanitizedInputAPIView:
 
     def test_unsanitized_input_numbers_and_special_characters(self, api_client):
         """Test with an unsanitized input containing numbers and special characters."""
-        url = reverse('sanitized:sanitized_input_v1')  # Replace with your actual URL name
+        url = reverse('sanitized:sanitized_input_v1')
         user_input = "123!@#"
         data = {'input': user_input}
         response = api_client.post(url, data, format='json')
